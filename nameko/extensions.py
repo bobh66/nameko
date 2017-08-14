@@ -7,7 +7,7 @@ import weakref
 from functools import partial
 from logging import getLogger
 
-from eventlet.event import Event
+from nameko.eventloop import Event
 
 from nameko.exceptions import IncorrectSignature
 

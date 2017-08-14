@@ -7,7 +7,7 @@ from functools import partial
 from logging import getLogger
 
 import kombu.serialization
-from eventlet.event import Event
+from nameko.eventloop import Event
 from kombu import Exchange, Queue
 
 from nameko.amqp.publish import Publisher, UndeliverableMessage

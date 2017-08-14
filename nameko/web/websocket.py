@@ -4,11 +4,8 @@ from collections import namedtuple
 from functools import partial
 from logging import getLogger
 
-import six
-from eventlet.event import Event
-from eventlet.websocket import WebSocketWSGI
-from werkzeug.routing import Rule
-
+from nameko.eventloop import Event
+from nameko.eventloop import WebSocketWSGI
 from nameko.exceptions import (
     ConnectionNotFound, MalformedRequest, MethodNotFound, serialize
 )

@@ -5,11 +5,9 @@ import sys
 import uuid
 from collections import deque
 from logging import getLogger
-
-import eventlet
 import six
-from eventlet.event import Event
-from eventlet.greenpool import GreenPool
+
+from nameko.eventloop import Event, GreenPool, spawn
 from greenlet import GreenletExit  # pylint: disable=E0611
 
 from nameko.constants import (
@@ -361,7 +359,7 @@ class ServiceContainer(object):
         if identifier is None:
             identifier = getattr(fn, '__name__', "<unknown>")
 
-        gt = eventlet.spawn(fn)
+        gt = spawn(fn)
         self._managed_threads[gt] = identifier
         gt.link(self._handle_managed_thread_exited, identifier)
         return gt

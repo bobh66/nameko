@@ -58,6 +58,9 @@ setup(
             "PyJWT==1.5.2",
             "moto==1.0.1",
             "bcrypt==3.1.3"
+        ],
+        'gevent': [
+            "gevent>=1.2.2"
         ]
     },
     entry_points={

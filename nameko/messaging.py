@@ -9,7 +9,6 @@ from logging import getLogger
 
 import six
 from amqp.exceptions import RecoverableConnectionError
-from eventlet.event import Event
 from kombu import Connection
 from kombu.common import maybe_declare
 from kombu.mixins import ConsumerMixin
@@ -21,6 +20,7 @@ from nameko.constants import (
     AMQP_URI_CONFIG_KEY, DEFAULT_HEARTBEAT, DEFAULT_SERIALIZER, HEADER_PREFIX,
     HEARTBEAT_CONFIG_KEY, SERIALIZER_CONFIG_KEY
 )
+from nameko.eventloop import Event
 from nameko.exceptions import ContainerBeingKilled
 from nameko.extensions import (
     DependencyProvider, Entrypoint, ProviderCollector, SharedExtension
