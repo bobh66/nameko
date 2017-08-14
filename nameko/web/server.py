@@ -3,8 +3,8 @@ import socket
 from collections import namedtuple
 from functools import partial
 
-import eventlet
-from eventlet import wsgi
+import nameko.eventloop
+from nameko.eventloop import wsgi
 from eventlet.support import get_errno
 from eventlet.wsgi import BROKEN_SOCK, BaseHTTPServer, HttpProtocol
 from logging import getLogger
@@ -95,7 +95,7 @@ class WebServer(ProviderCollector, SharedExtension):
     def start(self):
         if not self._starting:
             self._starting = True
-            self._sock = eventlet.listen(self.bind_addr)
+            self._sock = nameko.eventloop.listen(self.bind_addr)
             self._serv = self.get_wsgi_server(self._sock, self.get_wsgi_app())
             self._gt = self.container.spawn_managed_thread(self.run)
 

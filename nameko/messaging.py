@@ -8,7 +8,7 @@ from functools import partial
 from logging import getLogger
 
 import six
-from eventlet.event import Event
+from nameko.eventloop import Event
 from amqp.exceptions import RecoverableConnectionError
 from kombu import Connection
 from kombu.common import maybe_declare

@@ -1,7 +1,7 @@
 from __future__ import print_function
 
-import eventlet
-eventlet.monkey_patch()  # noqa (code before rest of imports)
+import nameko.eventloop
+nameko.eventloop.monkey_patch()  # noqa (code before rest of imports)
 
 import errno
 import inspect
@@ -14,7 +14,7 @@ import sys
 
 import six
 import yaml
-from eventlet import backdoor
+from nameko.eventloop import setup_backdoor
 from nameko.constants import AMQP_URI_CONFIG_KEY
 from nameko.exceptions import CommandError
 from nameko.extensions import ENTRYPOINT_EXTENSIONS_ATTR
@@ -93,23 +93,6 @@ def import_service(module_name):
     return found_services
 
 
-def setup_backdoor(runner, port):
-    def _bad_call():
-        raise RuntimeError(
-            'This would kill your service, not close the backdoor. To exit, '
-            'use ctrl-c.')
-    socket = eventlet.listen(('localhost', port))
-    gt = eventlet.spawn(
-        backdoor.backdoor_server,
-        socket,
-        locals={
-            'runner': runner,
-            'quit': _bad_call,
-            'exit': _bad_call,
-        })
-    return socket, gt
-
-
 def run(services, config, backdoor_port=None):
     service_runner = ServiceRunner(config)
     for service_cls in services:
@@ -118,7 +101,7 @@ def run(services, config, backdoor_port=None):
     def shutdown(signum, frame):
         # signal handlers are run by the MAINLOOP and cannot use eventlet
         # primitives, so we have to call `stop` in a greenlet
-        eventlet.spawn_n(service_runner.stop)
+        nameko.eventloop.spawn_n(service_runner.stop)
 
     signal.signal(signal.SIGTERM, shutdown)
 
@@ -132,7 +115,7 @@ def run(services, config, backdoor_port=None):
     # This is a side-effect of the eventlet hub mechanism. To protect nameko
     # from seeing the exception, we wrap the runner.wait call in a greenlet
     # spawned here, so that we can catch (and silence) the exception.
-    runnlet = eventlet.spawn(service_runner.wait)
+    runnlet = nameko.eventloop.spawn(service_runner.wait)
 
     while True:
         try:

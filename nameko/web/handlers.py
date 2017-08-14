@@ -1,7 +1,7 @@
 from logging import getLogger
 from functools import partial
 
-from eventlet.event import Event
+from nameko.eventloop import Event
 import six
 from werkzeug.wrappers import Response
 from werkzeug.routing import Rule

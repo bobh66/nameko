@@ -54,6 +54,9 @@ setup(
         ],
         'examples': [
             "nameko-sqlalchemy==0.0.1"
+        ],
+        'gevent': [
+            "gevent>=1.2.2"
         ]
     },
     entry_points={

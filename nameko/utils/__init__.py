@@ -3,9 +3,9 @@ import re
 import sys
 from pydoc import locate
 
-import eventlet
+import nameko.eventloop
 import six
-from eventlet.queue import LightQueue
+from nameko.eventloop import LightQueue
 
 REDACTED = "********"
 
@@ -145,7 +145,7 @@ def fail_fast_imap(pool, call, items):
             # simply raising here (even raising a full exc_info) isn't
             # sufficient to preserve the original stack trace.
             # greenlet.throw() achieves this.
-            eventlet.getcurrent().throw(*exc_info)
+            nameko.eventloop.getcurrent().throw(*exc_info)
         yield result
 
 
@@ -170,7 +170,7 @@ class SpawningProxy(object):
         def spawning_method(*args, **kwargs):
             items = self._items
             if items:
-                pool = eventlet.GreenPool(len(items))
+                pool = nameko.eventloop.GreenPool(len(items))
 
                 def call(item):
                     return getattr(item, name)(*args, **kwargs)
