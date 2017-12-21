@@ -7,7 +7,6 @@ from collections import deque
 from logging import getLogger
 import six
 
-from nameko.eventloop import Event, GreenPool, spawn
 from greenlet import GreenletExit  # pylint: disable=E0611
 
 from nameko.constants import (
@@ -15,6 +14,7 @@ from nameko.constants import (
     DEFAULT_PARENT_CALLS_TRACKED, DEFAULT_SERIALIZER, MAX_WORKERS_CONFIG_KEY,
     PARENT_CALLS_CONFIG_KEY, SERIALIZER_CONFIG_KEY
 )
+from nameko.eventloop import Event, GreenPool, spawn
 from nameko.exceptions import ConfigurationError, ContainerBeingKilled
 from nameko.extensions import (
     ENTRYPOINT_EXTENSIONS_ATTR, is_dependency, iter_extensions
